@@ -3,7 +3,8 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'transpiled', 'index.js'), // input file
+  mode: 'development',
+  entry: path.resolve(__dirname, 'src', 'index.js'), // input file
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle[hash].js',
@@ -13,5 +14,17 @@ module.exports = {
       template: path.resolve(__dirname, 'public', 'index.html')
     }),
     new CleanWebpackPlugin() // plugin to cleanup previous bundles
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/, // Files must end exclusively ($) with ".js",
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      }
+    ]
+  },
+  devServer: {
+    port: 3000,
+  }
 };
